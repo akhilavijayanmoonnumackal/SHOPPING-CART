@@ -1,35 +1,14 @@
 var express = require('express');
+const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
-
+var productHelper=require('../helpers/product-helpers')
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  let products=[
-    {
-      name:'Jade Plant',
-      category:'Plant',
-      description:'Special Feature: Drought Tolerant',
-      image:'https://m.media-amazon.com/images/I/61wsWXlRuFL._AC_UL480_FMwebp_QL65_.jpg'
-    },
-    {
-      name:'Bamboo Plant',
-      category:'Plant',
-      description:'Small:2 Layer Bamboo',
-      image:'https://m.media-amazon.com/images/I/41-knssZyGL._AC_UL480_FMwebp_QL65_.jpg'
-    },
-    {
-      name:'Bonsai Live Plants',
-      category:'Plant',
-      description:'Bonsai is a symbol of wisdom',
-      image:'https://m.media-amazon.com/images/I/61hlwq-GRyL._AC_UL480_FMwebp_QL65_.jpg'
-    },
-    {
-      name:'MoneyPlants',
-      category:'Plant',
-      description:'Survive in low light',
-      image:'https://m.media-amazon.com/images/I/61NgqLdwyfL._AC_UL480_FMwebp_QL65_.jpg'
-    }
-  ]
-  res.render('admin/view-products',{admin:true,products})
+  productHelpers.getAllProducts().then((products)=>{
+    console.log(products)
+    res.render('admin/view-products',{admin:true,products})
+  })
+  
 });
 
 router.get('/add-product',function(req,res){
@@ -39,6 +18,19 @@ router.get('/add-product',function(req,res){
 router.post('/add-product',(req,res)=>{
   console.log(req.body);
   console.log(req.files.Image);
+
+  productHelpers.addProduct(req.body,(id)=>{
+    let image=req.files.Image
+    console.log(id);
+    image.mv('./public/product-images/'+id+'.jpg',(err)=>{
+      if(!err){
+        res.render("admin/add-product")
+      }else{
+        console.log(err);
+      }
+    })
+    
+  })
 })
 
 module.exports = router;
