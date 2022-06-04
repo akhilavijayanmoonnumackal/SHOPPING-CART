@@ -1,6 +1,7 @@
 var express = require('express');
 const { route } = require('express/lib/application');
 const async = require('hbs/lib/async');
+const { response } = require('../app');
 var router = express.Router();
 const productHelpers = require('../helpers/product-helpers');
 const userHelpers=require('../helpers/user-helpers')
@@ -92,4 +93,11 @@ router.post('/remove-product',(req,res)=>{
     res.json({status:true})
   })
 })
+
+router.get('/place-order',verifyLogin,async(req,res)=>{
+  let total=await userHelpers.getTotalAmount(req.session.user._id)
+  res.render('user/place-order',{total})
+})
+
+
 module.exports = router;
