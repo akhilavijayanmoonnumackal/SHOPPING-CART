@@ -19,9 +19,10 @@
                     <td>Rs.{{this.product.Price}}</td>
                     
                     <td>
-                        <button class="cart-item-count mr-3" style="background-color: #587BA3; color:aliceblue" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+                        
+                        <button class="cart-item-count mr-3" style="background-color: #587BA3; color:aliceblue" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
                         <span id="{{this.product._id}}">{{this.quantity}}</span>
-                        <button class="cart-item-count ml-3" style="background-color: #587BA3; color:aliceblue" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+                        <button class="cart-item-count ml-3" style="background-color: #587BA3; color:aliceblue" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}},1)">+</button>
                     </td>
                     <td>
                         <button onclick="removeProduct('{{this.product._id}}','{{this._id}}','{{this.product.Name}}')" class="btn btn-danger">Remove</button>
@@ -33,7 +34,7 @@
         </table>
         <hr>
         <div class="float-right pr-5">
-            <h3 class="float-right mr-5">TOTAL: Rs. 100000</h3>
+            <h3 class="float-right mr-5">TOTAL: Rs. <span id="total">{{totalValue}}</span></h3>
             <a href="/place-order" class="btn btn-success mt-3 " style="width: 100%;">Place Order</a>
 
         </div>
@@ -42,5 +43,6 @@
 </section>
 
 <script>
+    
     
 </script>
