@@ -3,8 +3,7 @@
         <table class="table mt-5">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Date</th>                  
                     <th scope="col">Address</th>                    
                     <th scope="col">Pincode</th>
                     <th scope="col">Mobile</th>
@@ -17,7 +16,6 @@
                 {{#each orders}}
                 <tr>
                     <td>{{this.date}}</td>
-                    <td>{{this.deliveryDetails.name}}</td>
                     <td>{{this.deliveryDetails.address}}</td>
                     <td>{{this.deliveryDetails.pincode}}</td>
                     <td>{{this.deliveryDetails.mobile}}</td>
