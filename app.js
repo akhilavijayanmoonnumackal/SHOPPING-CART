@@ -27,6 +27,7 @@ db.connect((err)=>{
   if(err) console.log("Connection Error"+err);
   else console.log("Database Connected to port 27017");
 })
+
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
 

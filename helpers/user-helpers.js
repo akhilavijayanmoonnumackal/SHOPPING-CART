@@ -1,11 +1,10 @@
 var db = require('../config/connection')
 var collection = require('../config/collections')
 const bcrypt = require('bcrypt')
-const { resolve, reject } = require('promise')
-const async = require('hbs/lib/async')
-const { response } = require('../app')
-var objectId = require('mongodb').ObjectID
+const {response}=require('express')
+var objectId = require('mongodb').ObjectId
 const Razorpay = require('razorpay');
+const { resolve } = require('path')
 
 var instance = new Razorpay({
     key_id: 'rzp_test_266WOnlg6wbzrr',
@@ -18,34 +17,40 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             userData.Password = await bcrypt.hash(userData.Password, 10)
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
-                resolve(data)
+              db.get().collection(collection.USER_COLLECTION).findOne({_id:objectId(data.insertedId)}).then((response)=>{
+                resolve(response);
+                //mongodb latest update il kurach change vanitund ath kond an ee code ivide add cheythath user data db il ninum eduthit resolve cheyunath an
+              })
             })
         })
     },
 
     doLogin: (userData) => {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
+            
             let loginStatus = false
             let response = {}
-            let user = await db.get().collection(collection.USER_COLLECTION)
-                .findOne({ Email: userData.Email })
-            if (user) {
-                bcrypt.compare(userData.Password, user.Password).then((status) => {
-                    if (status) {
-                        console.log("Login Success");
-                        response.user = user
-                        response.status = true
-                        resolve(response)
-                    } else {
-                        console.log("Login Failed");
-                        resolve({ status: false })
-                    }
-                })
-            } else {
-                console.log("User not found");
-                resolve({ status: false })
-            }
+            let user=await db.get().collection(collection.USER_COLLECTION)
+            .findOne({ Email: userData.Email })                                   
+                if (user) {
+                    bcrypt.compare(userData.Password, user.Password)
+                    .then((status) => {
+                        if (status) {
+                            console.log("Login Success");
+                            response.user = user;
+                            response.status = true;   
+                            resolve(response);
+                        } else {
+                            console.log("Login Failed");
+                            resolve({ status: false });
+                        }
+                    })
+                } else {
+                    console.log("User not found");
+                    resolve({ status: false });
+                }           
         })
+        
     },
     addToCart: (proId, userId) => {
         let proObj = {
@@ -155,11 +160,11 @@ module.exports = {
             } else {
                 db.get().collection(collection.CART_COLLECTION)
                     .updateOne({ _id: objectId(details.cart), 'products.item': objectId(details.product) },
-                        {
-                            $inc: { 'products.$.quantity': details.count }
-                        }
+                    {
+                        $inc: { 'products.$.quantity': details.count }
+                    }
                     ).then((response) => {
-                        resolve({ status: true })
+                        resolve({status:true})
                     })
             }
         })
@@ -176,8 +181,7 @@ module.exports = {
                 })
         })
     },
-    getTotalAmount: (userId) => {
-
+    getTotalAmount: (userId) => {        
         return new Promise(async (resolve, reject) => {
             let total = await db.get().collection(collection.CART_COLLECTION)
                 .aggregate([
@@ -244,7 +248,6 @@ module.exports = {
                     
                 })
         })
-
     },
     getCartProductList: (userId) => {
         return new Promise(async (resolve, reject) => {
@@ -317,6 +320,36 @@ module.exports = {
             });
                                    
         })  
-    }
+    },
+    verifyPayment:(details)=>{
+        return new Promise((resolve,reject)=>{
+            const crypto=require('crypto');
+            let hmac = crypto.createHmac('sha256', 'EIOfYjOsCq8l4hFSvebKWHtf');
 
+            hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]']);
+            hmac=hmac.digest('hex')
+            if(hmac==details['payment[razorpay_signature]']){
+                resolve()
+            }else{
+                reject()
+            }
+
+
+        })
+    },
+    changePaymentStatus:(orderId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.ORDER_COLLECTION)
+            .updateOne({_id:objectId(orderId)},
+            {
+                $set:{
+                    status:'placed'
+                }
+            }          
+            ).then(()=>{
+                resolve()
+            })
+            
+        })
+    }
 }
