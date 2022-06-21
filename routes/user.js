@@ -27,6 +27,20 @@ router.get('/', async function (req, res, next) {
   })
 });
 
+router.get('/view-products', async function (req, res, next) {
+  let user = req.session.user
+  console.log(user);
+  let cartCount = null
+  if (req.session.user) {
+    cartCount = await userHelpers.getCartCount(req.session.user._id)
+  }
+
+  productHelpers.getAllProducts().then((products) => {
+
+    res.render('user/view-products', { products, user, cartCount })
+  })
+});
+
 router.get('/login', (req, res) => {
   if (req.session.user) {
     res.redirect('/')
