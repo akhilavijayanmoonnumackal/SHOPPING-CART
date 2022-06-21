@@ -4,10 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <title>Document</title>
 </head>
-<body>
+<body onload="slider()">
+    <div class="banner">
+        <div class="slider">
+            <img src="https://www.teahub.io/photos/full/121-1212485_wallpaper-flower-pots-window-sill-indoor-plants-full.jpg" id="slideImg">
+        </div>
+        <div class="overlay">
+            <div class="content">
+                <h1>LET'S ROOT FOR EACH OTHER</h1>
+                <h3>AND WATCH EACH OTHER GROW</h3>
+            </div>
+            <div>
+                <button type="button" class="button" style="margin: 0 650px;">PRODUCTS</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        var slideImg=document.getElementById("slideImg");
+        var images=new Array(
+            "https://i.insider.com/5ed80d79aee6a81cfb06c8d7?width=1000&format=jpeg&auto=webp",
+            "https://mybayutcdn.bayut.com/mybayut/wp-content/uploads/Indoor-plants-in-Dubai-home-A-02-02-1024x640.jpg",
+            "https://static.toiimg.com/thumb/msid-84854824,width-1200,height-900,resizemode-4/.jpg",
+            "https://assets-news.housing.com/news/wp-content/uploads/2016/08/08172244/Best-indoor-plants-for-small-rooms-and-apartments-snake-plant-shutterstock_1305891874.jpg"
+        );
+
+    var len=images.length;
+    var i=0;
+
+    function slider(){
+        if(i>len-1){
+            i=0;
+        }
+        slideImg.src=images[i];
+        i++;
+        setTimeout('slider()',3000);
+    }
+
+
+
+    </script>
     
 </body>
 </html>

@@ -6,7 +6,7 @@ const productHelpers = require('../helpers/product-helpers');
 const userHelpers = require('../helpers/user-helpers')
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.user) {
+  if (req.session.userLoggedIn) {
     next()
   } else {
     res.redirect('/login')
@@ -23,7 +23,7 @@ router.get('/', async function (req, res, next) {
 
   productHelpers.getAllProducts().then((products) => {
 
-    res.render('user/view-products', { products, user, cartCount })
+    res.render('user/home-products', { products, user, cartCount })
   })
 });
 
@@ -45,7 +45,7 @@ router.post('/signup', (req, res) => {
     console.log(response);
     
     req.session.user = response
-    req.session.user.loggedIn = true
+    req.session.userLoggedIn = true
     res.redirect('/')
   })
 })
@@ -55,7 +55,7 @@ router.post('/login', (req, res) => {
     if (response.status) {
       
       req.session.user = response.user
-      req.session.user.loggedIn = true
+      req.session.userLoggedIn = true
       res.redirect('/')
     } else {
       req.session.userLoginErr = "Invalid username or password"
@@ -66,16 +66,16 @@ router.post('/login', (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.session.user=null
+  req.session.userLoggedIn=false
   res.redirect('/')
 })
 
 router.get('/cart', verifyLogin, async (req, res) => {
   let products = await userHelpers.getCartProducts(req.session.user._id)
-  let totalValue;
-  if (products.length != 0) {
+  let totalValue=0
+  if (products.length>0) {
     totalValue = await userHelpers.getTotalAmount(req.session.user._id)
   }
-  
   console.log(products);
   res.render('user/cart', { products, totalValue, user: req.session.user })
 })

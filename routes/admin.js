@@ -1,9 +1,18 @@
 var express = require('express');
-const async = require('hbs/lib/async');
-const { response } = require('../app');
-const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
-var productHelper=require('../helpers/product-helpers')
+const productHelpers = require('../helpers/product-helpers');
+var productHelper=require('../helpers/admin-helpers');
+const adminHelpers = require('../helpers/admin-helpers');
+const { response } = require('../app');
+
+const verifyLogin = (req, res, next) => {
+  if (req.session.adminLoggedIn) {
+    next()
+  } else {
+    res.redirect('/login')
+  }
+}
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   productHelpers.getAllProducts().then((products)=>{
@@ -58,4 +67,61 @@ router.post('/edit-product/:id',(req,res)=>{
     }
   })
 })
+
+router.post('/signup', (req, res) => {
+  adminHelpers.doSignup(req.body).then((response)=>{
+    res.redirect('/admin')
+  })  
+})
+
+router.get('/signup', (req, res) => {
+  res.render('admin/signup',{admin:true,admin:req.session.admin})
+})
+
+// router.get('/login', (req, res) => {
+//   if (req.session.admin) {
+//     res.redirect('/')
+//   } else {
+//     res.render('user/admin', { "loginErr": req.session.adminLoginErr })
+//     req.session.adminLoginErr = false
+//   }
+// })
+
+router.get('/',(req,res)=>{
+  if(req.session.adminLoggedIn){
+    let Admin=req.session.admin
+    productHelpers.getAllProducts().then((products)=>{
+    res.render('admin/admin-products',{admin:true,products,Admin})
+  })
+  }else{
+    res.render('admin/login',{admin:true,loginErr:req.session.adminLoginErr})
+    req.session.adminLoginErr=false
+  }
+  
+})
+
+
+router.post('/login', (req, res) => {
+  adminHelpers.doLogin(req.body).then((response) => {
+    if (response.status) {
+      productHelpers.getAllProducts().then((products)=>{
+      req.session.admin = response.admin
+      req.session.admin.loggedIn = true
+      res.redirect('/admin')
+      })
+    } else {
+      req.session.adminLoginErr = "Invalid username or password"
+      res.redirect('/admin')
+    }
+  })
+})
+
+
+
+router.get('/logout', (req, res) => {
+  req.session.admin=null
+  req.session.adminLoggedIn=false
+  res.redirect('/admin')
+})
+
 module.exports = router;
