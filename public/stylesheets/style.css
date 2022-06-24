@@ -20,7 +20,12 @@
 #slideImg{
     width: 100%;
     height: 100%;
+    
 }
+
+
+
+
 
 .overlay{
     width: 100%;
@@ -65,3 +70,4 @@ button:hover{
     background: transparent;
     border: 2px solid #fff;
 }
+

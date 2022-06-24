@@ -1,5 +1,5 @@
-<section>
-    <div class="container mt-5">
+<section style="margin-top: 5%; margin-bottom: 5%;">
+    <div class="container mt-5" style="padding: 5%; box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);">
         <form action="" id="checkout-form">
             <div class="row">
                 <div class="col-md-6">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="container mt-5 ml-5 checkout">
+                    <div class="container mt-5 ml-5 checkout" style="padding: 5%; background: #5e8dc0; box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);">
                         <h5>Total Amount: Rs.{{total}}</h5>
                         <hr>
                         <div class="payment">
@@ -30,7 +30,8 @@
                             <label class="radio-inline mt-2">
                                 <input type="radio" name="payment-method" value="ONLINE">Online Payment
                             </label>
-                            <button class="float-right btn-primary">Checkout</button>
+                             
+                            <button class="float-right btn-primary" style="background-color: #26927E;">Checkout</button>
                         </div>
                     </div>
                 </div>
@@ -39,6 +40,7 @@
         </form>
     </div>
 </section>
+
 
 <script>
     $("#checkout-form").submit((e) => {
@@ -128,3 +130,6 @@
         padding-bottom: 16px;
     }
 </style>
+
+ 
+

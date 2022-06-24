@@ -20,7 +20,7 @@ module.exports={
     doLogin: (adminData) => {
         return new Promise(async(resolve, reject) => {
             
-            //let loginStatus = false
+            let loginStatus = false
             let response = {}
             let admin=await db.get().collection(collection.ADMIN_COLLECTION)
             .findOne({ Email: adminData.Email })                                   
