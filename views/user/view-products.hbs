@@ -1,9 +1,5 @@
 
-
 <section>
-    <div class="side-box">
-
-    </div>
     <div class="container mt-5">
         <div class="row">
             {{#each products}}           
@@ -27,44 +23,3 @@
 <script>
     
 </script>
-
-<style>
-    .side-box{
-        width:30%;
-        height: auto;
-        background-color: blueviolet;
-    }
-
-    .container{
-        width: 70%;
-        height: auto;
-    }
-</style>
-
-
-
-
-{{!-- <section>
-    <div class="container mt-5">
-        <div class="row">
-            {{#each products}}           
-            <div class="col-md-3 p-3">
-                <div class="card" style="width: 15rem; height: 28rem">
-                    <img class="card-img-top" style="height: 15rem;" src="/product-images/{{this._id}}.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">{{this.Name}}</h5>
-                        <p class="card-text">Rs.{{this.Price}}</p>
-                        <p class="card-text">{{this.Description}}</p>
-                            
-                        <button onclick="addToCart('{{this._id}}')" class="btn btn-primary">Add to cart</button>
-                    </div>
-                </div>
-            </div>           
-            {{/each}}
-        </div>
-    </div>
-</section>
-
-<script>
-    
-</script> --}}

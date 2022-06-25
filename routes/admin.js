@@ -113,5 +113,11 @@ router.post('/admin/admin-signup', (req, res) => {
   })
 })
 
+router.get('/all-users',(req,res)=>{
+  adminHelpers.getUsers().then((users)=>{
+    res.render('admin/all-users',{users,admin:true,admin:req.session.admin})
+  })
+})
+
 
 module.exports = router;
