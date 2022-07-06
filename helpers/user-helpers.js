@@ -352,5 +352,11 @@ module.exports = {
             
         })
     },
-    
+    getUser:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let user=await db.get().collection(collection.USER_COLLECTION)
+            .find().toArray()
+            resolve(user)
+        })
+    }
 }

@@ -170,4 +170,10 @@ router.post('/verify-payment', (req, res) => {
 
 
 
+router.get('/profile', (req, res) => {
+  res.render('user/profile', { user: req.session.user })
+})
+
+
+
 module.exports = router;

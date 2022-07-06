@@ -119,5 +119,11 @@ router.get('/all-users',(req,res)=>{
   })
 })
 
+router.get('/all-orders',(req,res)=>{
+  adminHelpers.getAllOrders().then((orders)=>{
+    res.render('admin/all-orders',{admin:true,admin:req.session.admin,orders})
+  })
+})
+
 
 module.exports = router;
