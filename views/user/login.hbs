@@ -1,24 +1,47 @@
-<div class="row">
-    <div class="col-md-6 m-auto">
-        <div class="container mt-5 pl-5">
-            <h2 class="text-center">Login</h2>
-            <form action="/login" method="post">
-            {{#if loginErr}}
-                <p class="error" style="color: red;">{{loginErr}}</p>
-            {{/if}}
-                <div class="form-group">
-                    <label for="">Email Address</label>
-                    <input type="email" class="form-control" name="Email" placeholder="Enter Email">
+<section class="vh-100" style="background-color: #9A616D;">
+    <div class="container py-5 h-100" >
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                            <img src="https://images.unsplash.com/photo-1509423350716-97f9360b4e09?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGluZG9vciUyMHBsYW50fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                            <div class="card-body p-4 p-lg-5 text-black">
+                                <div class="d-flex align-items-center mb-3 pb-1">
+                                    <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                                    <span class="h1 fw-bold mb-0">Login</span>
+                                </div><br>
+                                <div class="d-flex align-items-center mb-3 pb-1">
+                                    <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                                    <span class="h5 fw-bold mb-0">Please enter your e-mail and password:</span>
+                                </div>
+                                
+                                <form action="/login" method="post">
+                                    {{#if loginErr}}
+                                    <p class="error" style="color: red;">{{loginErr}}</p>
+                                    {{/if}}
+                                    <div class="form-group mb-4">                                       
+                                        <input type="email" class="form-control" name="Email">
+                                        <label class="form-label" for="form">Email address</label>
+                                    </div>
+                                    <div class="form-group mb-4">                                        
+                                        <input type="password" class="form-control" name="Password">
+                                        <label class="form-label" for="form">Password</label>
+                                    </div><br><br>
+                                    <div class="pt-1 mb-4">
+                                        <button type="submit" class="btn btn-dark btn-lg btn-block">Login</button>
+                                    </div>                                   
+                                    
+                                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/signup" style="color: #393f81;">Create one</a></p>
+                                </form>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="">Password</label>
-                    <input type="password" class="form-control" name="Password" placeholder="Enter Password">
-
-                </div>
-                <a href="/signup">Create new account?</a>
-                <button type="submit" class="btn btn-primary float-right">Login</button>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</section>

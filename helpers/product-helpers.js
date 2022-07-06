@@ -1,8 +1,5 @@
-const { resolve, reject } = require('promise')
 var db=require('../config/connection')
 var collection=require('../config/collections')
-const async = require('hbs/lib/async')
-const { response } = require('../app')
 var objectId=require('mongodb').ObjectID
 
 module.exports={
